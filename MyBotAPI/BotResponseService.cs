@@ -12,9 +12,8 @@ namespace MyBotAPI
             using HttpClient client = httpClientFactory.CreateClient();
 
             string[] Scopes = ["https://api.botframework.com/.default"];
-            var tok = await auth.CreateAuthorizationHeaderForAppAsync(Scopes[0]);
-            var token = tok.Substring("Bearer ".Length);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var token = await auth.CreateAuthorizationHeaderForAppAsync(Scopes[0]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Substring("Bearer ".Length));
 
             string url = $"{act.ServiceUrl}/v3/conversations/{act.Conversation.Id}/activities";
 
@@ -35,14 +34,16 @@ namespace MyBotAPI
                 {
                     Id = act.From.Id
                 },
-                Text = "Hello from the bot " + DateTime.Now.ToString("o"),
+                Text = text + DateTime.Now.ToString("o"),
                 Type = "message"
             };
 
-            using var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);
-            httpRequest.Content = new StringContent(JsonConvert.SerializeObject(respMsg), System.Text.Encoding.UTF8, "application/json");
-
-            var resp = await client.SendAsync(httpRequest);
+            using var httpRequest = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(respMsg), System.Text.Encoding.UTF8, "application/json")
+            };
+            using var resp = await client.SendAsync(httpRequest);
+            resp.EnsureSuccessStatusCode();
         }
     }
 }

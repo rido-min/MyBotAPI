@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Schema;
-using Microsoft.Identity.Abstractions;
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
 
 namespace MyBotAPI.Controllers
 {
