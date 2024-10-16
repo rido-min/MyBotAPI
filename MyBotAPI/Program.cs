@@ -10,13 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services
-    .AddMicrosoftIdentityWebApiAuthentication(builder.Configuration, subscribeToJwtBearerMiddlewareDiagnosticsEvents: true)
-    .EnableTokenAcquisitionToCallDownstreamApi(c =>
-    {
-        c.TenantId = builder.Configuration["AzureAd:TenantId"];
-        c.ClientId = builder.Configuration["AzureAd:ClientId"];
-        c.ClientSecret = "7Nv8Q~TPx3WHOr0uYO3KQN85ydFbxYkx4m4hBdze";
-    })
+    .AddMicrosoftIdentityWebApiAuthentication(builder.Configuration)
+    .EnableTokenAcquisitionToCallDownstreamApi()
     .AddInMemoryTokenCaches();
 
 string[] validTokenIssuers = [
