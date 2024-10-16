@@ -13,15 +13,10 @@ builder.Services
     .AddMicrosoftIdentityWebApiAuthentication(builder.Configuration, subscribeToJwtBearerMiddlewareDiagnosticsEvents: true)
     .EnableTokenAcquisitionToCallDownstreamApi(c =>
     {
-        c.EnablePiiLogging = true;
-        //c.TenantId = "69e9b82d-4842-4902-8d1e-abc5b98a55e8";
-        c.ClientId = "16766ea1-324e-443b-8dae-4b15add96a87";
+        c.TenantId = builder.Configuration["AzureAd:TenantId"];
+        c.ClientId = builder.Configuration["AzureAd:ClientId"];
         c.ClientSecret = "7Nv8Q~TPx3WHOr0uYO3KQN85ydFbxYkx4m4hBdze";
     })
-    //.AddDownstreamApi("webchat", c =>
-    //{
-    //    c.RelativePath = "botframework.com";
-    //})
     .AddInMemoryTokenCaches();
 
 string[] validTokenIssuers = [
@@ -31,6 +26,7 @@ string[] validTokenIssuers = [
                     "https://sts.windows.net/f8cdef31-a31e-4b4a-93e4-5f571e91255a/",
                     "https://login.microsoftonline.com/f8cdef31-a31e-4b4a-93e4-5f571e91255a/v2.0",
                 ];
+JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options => 
 {
@@ -39,36 +35,17 @@ builder.Services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationSch
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidateAudience = false,
+        ValidateAudience = true,
         ValidateLifetime = true,
         ClockSkew = TimeSpan.FromMinutes(5),
         ValidIssuers = validTokenIssuers,
-        //ValidAudience = "16766ea1-324e-443b-8dae-4b15add96a87",
+        ValidAudience = "16766ea1-324e-443b-8dae-4b15add96a87",
+        RoleClaimType = "roles",
         RequireSignedTokens = true,
-        //SignatureValidator = (token, parameters) => new JwtSecurityToken(token),
         SignatureValidator = (token, parameters) => new Microsoft.IdentityModel.JsonWebTokens.JsonWebToken(token),
     };
 
 });
-
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApi(options =>
-//    {
-//        builder.Configuration.Bind("AzureAd", options);
-//        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-//        {
-//            ValidateTokenReplay = true,
-//            ValidateIssuerSigningKey = true
-//        };
-//    }, options =>
-//    {
-//        builder.Configuration.Bind("AzureAd", options);
-//    }).EnableTokenAcquisitionToCallDownstreamApi(c =>
-//    {
-//        c.EnablePiiLogging = true;
-//        c.ClientId = "16766ea1-324e-443b-8dae-4b15add96a87";
-//        c.ClientSecret = "7Nv8Q~TPx3WHOr0uYO3KQN85ydFbxYkx4m4hBdze";
-//    }).AddDownstreamApi("webchat", c => { c.RelativePath = "botframework.com"; });
 
 builder.Services.AddControllers();
 

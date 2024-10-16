@@ -12,7 +12,7 @@ namespace MyBotAPI.Controllers
     [Authorize]
     [ApiController]
     [Route("api/messages")]
-    public class BotController(ILogger<BotController> logger) : ControllerBase //, IAuthorizationHeaderProvider auth
+    public class BotController(ILogger<BotController> logger, IAuthorizationHeaderProvider auth) : ControllerBase //, IAuthorizationHeaderProvider auth
     {
         [HttpPost]
         public async Task PostAsync(object body, CancellationToken cancellationToken)
@@ -31,40 +31,40 @@ namespace MyBotAPI.Controllers
 
             string[] Scopes = ["https://api.botframework.com/.default"];
 
-            
-            //var tok = await auth.CreateAuthorizationHeaderForAppAsync(Scopes[0]);
 
-            //var token = tok.Substring("Bearer ".Length);
-            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var tok = await auth.CreateAuthorizationHeaderForAppAsync(Scopes[0]);
 
-            //string url = $"{act.ServiceUrl}/v3/conversations/{act.Conversation.Id}/activities";
+            var token = tok.Substring("Bearer ".Length);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            //var respMsg = new Activity
-            //{
-            //    ChannelId = act.ChannelId,
-            //    Conversation = new ConversationAccount
-            //    {
-            //        Id = act.Conversation.Id,
-            //    },
-            //    From = new ChannelAccount
-            //    {
-            //        Id = act.Recipient.Id,
-            //        Name = act.Recipient.Name,
-            //    },  
-            //    InputHint = "acceptingInput",
-            //    Recipient = new ChannelAccount
-            //    {
-            //       Id = act.From.Id
-            //    },
-            //    Text = "Hello from the bot " + DateTime.Now.ToString("o"),
-            //    Type = "message"
-            //};
+            string url = $"{act.ServiceUrl}/v3/conversations/{act.Conversation.Id}/activities";
 
-            //var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);
-            //httpRequest.Content = new StringContent(JsonConvert.SerializeObject(respMsg), System.Text.Encoding.UTF8, "application/json");
+            var respMsg = new Activity
+            {
+                ChannelId = act.ChannelId,
+                Conversation = new ConversationAccount
+                {
+                    Id = act.Conversation.Id,
+                },
+                From = new ChannelAccount
+                {
+                    Id = act.Recipient.Id,
+                    Name = act.Recipient.Name,
+                },
+                InputHint = "acceptingInput",
+                Recipient = new ChannelAccount
+                {
+                    Id = act.From.Id
+                },
+                Text = "Hello from the bot " + DateTime.Now.ToString("o"),
+                Type = "message"
+            };
 
-            //var resp = await client.SendAsync(httpRequest);
-            //logger.LogInformation($"Response: {resp.StatusCode}");
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);
+            httpRequest.Content = new StringContent(JsonConvert.SerializeObject(respMsg), System.Text.Encoding.UTF8, "application/json");
+
+            var resp = await client.SendAsync(httpRequest);
+            logger.LogInformation($"Response: {resp.StatusCode}");
         }
     }
 }
