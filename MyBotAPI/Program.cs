@@ -35,16 +35,18 @@ string[] validTokenIssuers = [
 builder.Services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options => 
 {
     options.IncludeErrorDetails = true;
+    options.MapInboundClaims = false;
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidateAudience = true,
+        ValidateAudience = false,
         ValidateLifetime = true,
         ClockSkew = TimeSpan.FromMinutes(5),
         ValidIssuers = validTokenIssuers,
-        ValidAudience = "16766ea1-324e-443b-8dae-4b15add96a87",
+        //ValidAudience = "16766ea1-324e-443b-8dae-4b15add96a87",
         RequireSignedTokens = true,
-        SignatureValidator = (token, parameters) => new JwtSecurityToken(token),
+        //SignatureValidator = (token, parameters) => new JwtSecurityToken(token),
+        SignatureValidator = (token, parameters) => new Microsoft.IdentityModel.JsonWebTokens.JsonWebToken(token),
     };
 
 });
