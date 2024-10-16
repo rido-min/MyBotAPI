@@ -1,0 +1,20 @@
+{
+  "type": "conversationUpdate",
+  "id": "3uTBGKLpzrc",
+  "timestamp": "2024-10-16T14:29:53.283194Z",
+  "serviceUrl": "https://webchat.botframework.com/",
+  "channelId": "webchat",
+  "from": { "id": "6d8d9b9d-c869-4422-9665-bf8f00690d55" },
+  "conversation": { "id": "7L9QU1oZk1w2Zd5ByZTo3A-us" },
+  "recipient": {
+    "id": "bot-zero@Vpu7UXD1NWs",
+    "name": "bot-zero"
+  },
+  "membersAdded": [
+    {
+      "id": "bot-zero@Vpu7UXD1NWs",
+      "name": "bot-zero"
+    },
+    { "id": "6d8d9b9d-c869-4422-9665-bf8f00690d55" }
+  ]
+}
