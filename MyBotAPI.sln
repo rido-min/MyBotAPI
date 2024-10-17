@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBotAPI", "MyBotAPI\MyBotA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{4C4D01B5-F670-4C21-93B8-470734F2A3BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotSDK", "BotSDK\BotSDK.csproj", "{A07B761C-BA54-4765-8C76-C5A386995C78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CF2D7891-2FA7-4DFC-926F-6D6B49C60F45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{4C4D01B5-F670-4C21-93B8-470734F2A3BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C4D01B5-F670-4C21-93B8-470734F2A3BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C4D01B5-F670-4C21-93B8-470734F2A3BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A07B761C-BA54-4765-8C76-C5A386995C78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A07B761C-BA54-4765-8C76-C5A386995C78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A07B761C-BA54-4765-8C76-C5A386995C78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A07B761C-BA54-4765-8C76-C5A386995C78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4C4D01B5-F670-4C21-93B8-470734F2A3BD} = {CF2D7891-2FA7-4DFC-926F-6D6B49C60F45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {866E3905-7B34-4AD3-B501-8F3C50CDA1BF}
